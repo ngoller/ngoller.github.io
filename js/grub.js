@@ -13,6 +13,15 @@ class Grub {
         this.y += this.vy * dt
         this.vx += this.ax
         this.vy += this.ay
+
+
+        this.vx *= .999;
+        this.vy *= .999;
+    }
+
+    pushTowards(point, strength=1) {
+        this.vx += strength * (point[0] - this.x > 0 ? 1 : -1)
+        this.vy += strength * (point[1] - this.y > 0 ? 1 : -1)
     }
 
     setAcceleration(acceleration) {
