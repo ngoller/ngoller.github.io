@@ -1,0 +1,18 @@
+:root {
+	--primary-background: #f1f1f1
+	--primary-color: black
+}
+
+body {
+	background-color: var(--primary-background);
+	color: var(--primary-color);	
+    font-family: "Raleway", sans-serif;
+	text-align: center;
+}
+
+.grub {
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	background-color: green;
+}
