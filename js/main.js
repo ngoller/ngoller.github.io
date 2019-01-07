@@ -1,23 +1,31 @@
 const grubs = []
 const sleepTime = 20;
+let previousTime = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
 	generateGrubs();
 
 	window.innerWidth
 
+	previousTime = window.performance.now()
 	setInterval(eventLoop, sleepTime);
 })
 
-function eventLoop () {
-	grubs.each
+function eventLoop() {
+	const dt = window.performance.now() - previousTime
+
+	grubs.forEach((grub) => {
+		grub.update(dt)
+	})
+
+	previousTime = window.performance.now()
 }
 
-function getRandomPosition () {
-	return { x: window.innerWidth * Math.random(), y: window.innerHeight * Math.random() }
+function getRandomPosition() {
+	return [window.innerWidth * Math.random(), window.innerHeight * Math.random()]
 }
 
-function generateGrubs () {
+function generateGrubs() {
 	const body = document.querySelector('body')
 	const innerHeight = window.innerHeight
 	const innerWidth = window.innerWidth
@@ -30,9 +38,10 @@ function generateGrubs () {
 	}
 }
 
-function createGrub () {
-	const grub = new Grub(document.createElement('div'));
+function createGrub() {
+	const grub = new Grub();
 	grub.setPosition(getRandomPosition())
+	grub.setVelocity([0.01, 0.01])
 
 	return grub;
 }
