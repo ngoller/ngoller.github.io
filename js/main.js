@@ -1,11 +1,10 @@
 const grubs = []
-const sleepTime = 20;
+const sleepTime = 0;
 let previousTime = 0;
 let events = { mousedown: 0, mouseup: 0 }
 let state = { mousedown: 0, paused: 0}
 // last mouse event
 let mouse = {}
-
 /**
  * Set up event listeners
  */
@@ -15,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	window.innerWidth
 
 	previousTime = window.performance.now()
-	setInterval(eventLoop, sleepTime);
+	requestAnimationFrame(eventLoop);
 })
 
 document.addEventListener('mousedown', function (e) {
@@ -38,6 +37,11 @@ document.addEventListener('mousemove', function(e) {
  */
 function eventLoop() {
 	const dt = window.performance.now() - previousTime
+	if (dt < sleepTime) {
+		requestAnimationFrame(eventLoop)
+		return;
+	}
+
 	processState()
 	processInputEvents()
 	
@@ -50,6 +54,7 @@ function eventLoop() {
 	})
 
 	previousTime = window.performance.now()
+	requestAnimationFrame(eventLoop);	
 }
 
 function processInputEvents() {
@@ -80,19 +85,20 @@ function generateGrubs() {
 	const body = document.querySelector('body')
 	const innerHeight = window.innerHeight
 	const innerWidth = window.innerWidth
-	console.info('DOM Content Loaded... beginning festivities.')
-	for (let i = 0; i < 20; i++) {
+	
+	const grubCarrier = new DocumentFragment()	
+	for (let i = 0; i < 1000; i++) {
 		const grub = createGrub()
 		grubs.push(grub)
-
-		body.appendChild(grub.el)
+		grubCarrier.appendChild(grub.el)
 	}
+	body.appendChild(grubCarrier);
 }
 
 function createGrub() {
 	const grub = new Grub();
 	grub.setPosition(getRandomPosition())
-	grub.setVelocity([(Math.random() - .5) / 50, (Math.random() - .5) / 50])
+	// grub.setVelocity([(Math.random() - .5) / 50, (Math.random() - .5) / 50])
 
 	return grub;
 }

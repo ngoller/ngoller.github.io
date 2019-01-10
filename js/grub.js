@@ -1,8 +1,9 @@
 class Grub {
     constructor() {
-        this._el = document.createElement('div')
+        this.el = document.createElement('span')
         this.el.classList.add('grub')
-        
+        const shade = Math.random()*255
+        this.el.style['background-color'] = `rgb(${shade},${shade},${shade},.4)`
         this._v = [0, 0]
         this._a = [0, 0]
         this._p = [0, 0]
@@ -13,7 +14,7 @@ class Grub {
         this.y += this.vy * dt
         this.vx += this.ax
         this.vy += this.ay
-
+        this._el.style.transform = `translate(${this.x}px, ${this.y}px)`
 
         this.vx *= .999;
         this.vy *= .999;
@@ -53,7 +54,6 @@ class Grub {
 
     set x(x) {
         this._p[0] = x
-        this._el.style.left = x
     }
 
     get y() {
@@ -62,7 +62,6 @@ class Grub {
 
     set y(y) {
         this._p[1] = y
-        this._el.style.top = y
     }
 
     get p() {
