@@ -5,5 +5,3 @@ At the moment there are simply a bunch of divs that follow the mouse around when
 I struggled to get more than 1,000 behaving smoothly in the browser.
 
 https://ngoller.github.io/
-
-More to come soon.
