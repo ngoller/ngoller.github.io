@@ -1,21 +1,21 @@
 const grubs = []
-const sleepTime = 0;
+const sleepTime = 20;
+let canvas;
+let ctx;
 let previousTime = 0;
 let events = { mousedown: 0, mouseup: 0 }
 let state = { mousedown: 0, paused: 0}
-// last mouse event
-let mouse = {}
-/**
- * Set up event listeners
- */
-document.addEventListener('DOMContentLoaded', function () {
-	generateGrubs();
 
-	window.innerWidth
+document.addEventListener('DOMContentLoaded', () => {
+  canvas = document.querySelector("#canvas");
+  ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-	previousTime = window.performance.now()
+  generateGrubs();
+  previousTime = window.performance.now()
 	requestAnimationFrame(eventLoop);
-})
+});
 
 document.addEventListener('mousedown', function (e) {
 	events.mousedown = e
@@ -33,28 +33,38 @@ document.addEventListener('mousemove', function(e) {
 })
 
 /**
- * The main event loop of the application. Handles updating entities and processing of input
- */
+* The main event loop of the application. Handles updating entities and processing of input
+*/
 function eventLoop() {
-	const dt = window.performance.now() - previousTime
-	if (dt < sleepTime) {
-		requestAnimationFrame(eventLoop)
-		return;
-	}
+  const dt = window.performance.now() - previousTime
+  if (dt < sleepTime) {
+    requestAnimationFrame(eventLoop)
+    return;
+  }
 
-	processState()
-	processInputEvents()
-	
-	if (state.paused) {
-		return;
-	}
+  processState()
+  processInputEvents()
 
-	grubs.forEach((grub) => {
-		grub.update(dt)
-	})
+  if (state.paused) {
+    return;
+  }
 
-	previousTime = window.performance.now()
-	requestAnimationFrame(eventLoop);	
+  grubs.forEach((grub) => {
+    grub.update(dt)
+  })
+
+  draw();
+
+  previousTime = window.performance.now()
+  requestAnimationFrame(eventLoop);
+}
+
+function draw() {
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0,0, window.innerWidth, window.innerHeight);
+  grubs.forEach((grub) => {
+    grub.draw(canvas, ctx);
+  })
 }
 
 function processInputEvents() {
@@ -82,23 +92,16 @@ function getRandomPosition() {
 }
 
 function generateGrubs() {
-	const body = document.querySelector('body')
-	const innerHeight = window.innerHeight
-	const innerWidth = window.innerWidth
-	
-	const grubCarrier = new DocumentFragment()	
-	for (let i = 0; i < 1000; i++) {
-		const grub = createGrub()
-		grubs.push(grub)
-		grubCarrier.appendChild(grub.el)
-	}
-	body.appendChild(grubCarrier);
+	for (let i = 0; i < 150; i++) {
+    for (let j = 0; j < 150; j++) {
+      grubs.push(createGrub(i,j));
+    }
+  }
 }
 
-function createGrub() {
-	const grub = new Grub();
-	grub.setPosition(getRandomPosition())
-	// grub.setVelocity([(Math.random() - .5) / 50, (Math.random() - .5) / 50])
+function createGrub(i,j) {
+	const grub = new Grub()
+	grub.setPosition([300 + i*4,150 + j*4]);
 
 	return grub;
 }

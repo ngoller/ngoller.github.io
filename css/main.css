@@ -5,18 +5,5 @@
 
 body {
 	background-color: var(--primary-background);
-	color: var(--primary-color);	
-    font-family: "Raleway", sans-serif;
-	text-align: center;
-}
-
-.grub {
-	position: absolute;
-	left: 0;
-	top: 0;
-	/* Didn't see any performance impact when I used border instead of width and height.*/
-	width: 2px;
-	height: 2px;
-	/* Translation seems to be a bit better than changing position as it does not require layouts. */
-	transform: translate(0, 0);
+	margin: 0px;
 }
