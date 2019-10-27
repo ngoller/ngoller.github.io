@@ -10,22 +10,23 @@ let mouse, key, fileInput, offscreenCanvas
 
 function reset(imageData) {
   grubs = []
-  canvas = document.querySelector("#canvas")
-  offscreenCanvas = document.querySelector("#offscreenCanvas")
-  ctx = canvas.getContext('2d', { alpha: false })
+  ctx = canvas.getContext('2d', { alpha: true })
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
   generateGrubs(imageData)
   previousTime = window.performance.now()
   state = {}
   events = {}
+  fileInput.value = ''
   state = Object.assign(state, initialState);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  reset()
+  canvas = document.querySelector("#canvas")
+  offscreenCanvas = document.querySelector("#offscreenCanvas")
   fileInput = document.querySelector("#fileInput")
   fileInput.addEventListener('change', handleImageUpload)
+  reset()
   requestAnimationFrame(eventLoop)
 });
 
@@ -145,7 +146,7 @@ function createGrub(x,y,pixel) {
   const grub = new Grub()
   grub.setPosition([x,y])
   if (pixel) {
-    grub._color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
+    grub._color = `rgba(${pixel[0]},${pixel[1]},${pixel[2]},${pixel[3]})`;
   }
 
   return grub;
