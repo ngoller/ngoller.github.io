@@ -7,3 +7,7 @@ body {
 	background-color: var(--primary-background);
 	margin: 0px;
 }
+
+#fileInput, #offscreenCanvas {
+	display:none;
+}

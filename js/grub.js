@@ -1,6 +1,6 @@
 class Grub {
     constructor() {
-        this._color = 'gray'
+        this._color = 'rgb(120,120,120)'
         this.width = 4
         this.height = 4
         this._v = [0, 0]
@@ -40,7 +40,7 @@ class Grub {
 
     draw(canvas, ctx) {
         ctx.fillStyle = this._color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillRect(Math.floor(this.x), Math.floor(this.y), this.width, this.height);
     }
 
     get el() {
